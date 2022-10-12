@@ -6,10 +6,11 @@ compileUnit : expr EOF;
 prog : (expr ';' NEWLINE?)*;
 expr : '(' expr ')'         # parensExpr
      | ('+'|'-') expr # unaryExpr
-     | expr ADD expr  # infixExpr
      | expr MUL expr  # infixExpr
-     | expr SUB expr  # infixExpr
      | expr DIV expr  # infixExpr
+     | expr ADD expr  # infixExpr
+     | expr SUB expr  # infixExpr
+     
      | var ASSIGN num  # infixExpr
      | func           # funcExpr
      | num            # numberExpr
