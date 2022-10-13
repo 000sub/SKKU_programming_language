@@ -1,27 +1,28 @@
 grammar Expr;
 
-compileUnit : expr EOF;
 
 // parser rules
-prog : (expr ';' NEWLINE?)*;
-expr : '(' expr ')'         # parensExpr
+prog : ((decl | expr) ';' NEWLINE?)*
+     ; 
+
+decl : ID ASSIGN num 
+     ;
+
+expr : '(' expr ')'   # parensExpr
      | ('+'|'-') expr # unaryExpr
      | expr MUL expr  # infixExpr
      | expr DIV expr  # infixExpr
      | expr ADD expr  # infixExpr
      | expr SUB expr  # infixExpr
-     
-     | var ASSIGN num  # infixExpr
      | func           # funcExpr
      | num            # numberExpr
-     | var            # varExpr
+     | ID             # variableExpr
      ;
      
 num  : INT
      | REAL
      ;
 
-var  : ID;
 func : ID '(' param ')';
 param : (num COMMA)* num;
 // lexer rules                    
