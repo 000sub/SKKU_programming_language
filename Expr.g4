@@ -1,6 +1,10 @@
 grammar Expr;
 
 
+@header{
+	package Antlr;
+}
+
 // parser rules
 prog : ((decl | expr) ';' NEWLINE?)*
      ; 
@@ -9,11 +13,9 @@ decl : ID ASSIGN num
      ;
 
 expr : '(' expr ')'   # parensExpr
-     | ('+'|'-') expr # unaryExpr
-     | expr MUL expr  # infixExpr
-     | expr DIV expr  # infixExpr
-     | expr ADD expr  # infixExpr
-     | expr SUB expr  # infixExpr
+     | op=('+'|'-') expr # unaryExpr
+     | left=expr op=('*'|'/') right=expr  # infixExpr
+     | left=expr op=('+'|'-') right=expr  # infixExpr
      | func           # funcExpr
      | num            # numberExpr
      | ID             # variableExpr

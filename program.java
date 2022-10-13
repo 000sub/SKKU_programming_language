@@ -1,5 +1,7 @@
+package Antlr;
 import java.io.IOException;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 public class program {
 
@@ -14,6 +16,11 @@ public class program {
         ExprParser parser = new ExprParser(tokens);
         
 		//write your code here
-
+        System.out.println(tokens.getText());
+        
+        ParseTree tree = parser.expr();
+        
+        BuildAstVisitor eval = new BuildAstVisitor();
+        System.out.println(eval.visit(tree));
     }
 }
