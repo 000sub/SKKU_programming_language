@@ -1,4 +1,3 @@
-package Antlr;
 /*
 
 Calculate The Input String

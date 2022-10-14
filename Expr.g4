@@ -1,9 +1,6 @@
 grammar Expr;
 
 
-@header{
-	package Antlr;
-}
 
 // parser rules
 prog : ((decl | expr) ';' NEWLINE?)*

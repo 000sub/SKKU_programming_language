@@ -1,5 +1,5 @@
-package Antlr;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 /*
@@ -14,12 +14,13 @@ you should override the methods.
 
 public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 	
-	private HashMap<String, Double> map;
+	Map<String, Double> map = new HashMap<String, Double>();
 	private List<String> semanticErrors;
+
 
 	@Override
 	public AstNodes visitDecl(ExprParser.DeclContext ctx) {
-		String id = ctx.getChild(0).getText();
+		String id = ctx.ID().getText();
 		double value = Double.parseDouble(ctx.num().getText());
 		map.put(id,  value);
 		
@@ -40,6 +41,7 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 
 	@Override
 	public AstNodes visitInfixExpr(ExprParser.InfixExprContext ctx) {
+		System.out.println("visitInfixExpr calling\n");
 		InfixExprNode node = null;
 		
 		if (ctx.op.getType() == ExprParser.ADD) {
@@ -61,6 +63,7 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 
 	@Override
 	public AstNodes visitNum(ExprParser.NumContext ctx) {
+		System.out.println("visitNUM calling\n");
 		String numText = ctx.getChild(0).getText();
 		double num = Double.parseDouble(numText);
 		return new NumberNode(num);
@@ -68,6 +71,7 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 
 	@Override
 	public AstNodes visitNumberExpr(ExprParser.NumberExprContext ctx) {
+		System.out.println("visitNumberExpr calling\n");
 		String numText = ctx.getChild(0).getText();
 		double num = Double.parseDouble(numText);
 		return new NumberNode(num);
@@ -81,15 +85,10 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 
 	@Override
 	public AstNodes visitParensExpr(ExprParser.ParensExprContext ctx) {
-		// TODO Auto-generated method stub
 		return visit(ctx.expr());
 	}
 
-	@Override
-	public AstNodes visitProg(ExprParser.ProgContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitProg(ctx);
-	}
+
 
 	@Override
 	public AstNodes visitUnaryExpr(ExprParser.UnaryExprContext ctx) {
@@ -154,6 +153,7 @@ abstract class AstVisitor<T>
 			return Visit((VariableNode)node);
 		}
 		
+		System.out.println("Visit calling\n");
 		return Visit(node);
 	}
 }
