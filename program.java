@@ -1,6 +1,10 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+
 
 public class program {
 
@@ -15,11 +19,31 @@ public class program {
         ExprParser parser = new ExprParser(tokens);
         
 		//write your code here
-        //System.out.println(tokens.getText());
         
-        ParseTree tree = parser.prog();
+        List<Double> evalList = new ArrayList<>();
+        ExprParser.ProgContext tree = parser.prog();
         
-        BuildAstVisitor eval = new BuildAstVisitor();
-        eval.visit(tree);
+        int idx=0;
+
+        while (true) {
+        	try {
+                AstNodes ast = new BuildAstVisitor().visit(tree.children.get(idx));
+                AstCall astPrinter = new AstCall();
+                astPrinter.Call(ast);
+                Double rst = new Evaluate().evaluate(ast);
+                evalList.add(rst);
+                idx+=3;
+            }
+        	catch (IndexOutOfBoundsException E){
+        		break;
+        	}
+        }
+        
+        for (Double eval : evalList) {
+        	System.out.println(String.format("%.1f", eval));
+        }
+        
+        
+     
     }
 }

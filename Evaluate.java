@@ -5,58 +5,114 @@ And Return the result
 
 */
 
-class Evaluate extends AstVisitor<Double>{
+public class Evaluate extends AstWalker<Double>{
 
 	@Override
-	public Double Visit(AdditionNode node) {
-		return Visit(node.left) + Visit(node.right);
+	Double Call(AdditionNode node) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Double Visit(SubtractionNode node) {
-		return Visit(node.left) - Visit(node.right);
+	Double Call(SubtractionNode node) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Double Visit(MultiplicationNode node) {
-		return Visit(node.left) * Visit(node.right);
+	Double Call(MultiplicationNode node) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Double Visit(DivisionNode node) {
-		return Visit(node.left) / Visit(node.right);
+	Double Call(DivisionNode node) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-//	@Override
-//	public Double Visit(FunctionNode node) {
-//		return node.Function(Visit(node.Argument));
-//	}
+	@Override
+	Double Call(FunctionNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-	public Double Visit(NumberNode node) {
+	Double Call(NegateNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	Double Call(NumberNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	Double Call(DeclarationNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	Double Call(VariableNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	Double evaluate(AdditionNode node) {
+		// TODO Auto-generated method stub
+		return evaluate(node.left) + evaluate(node.right);
+	}
+
+	@Override
+	Double evaluate(SubtractionNode node) {
+		// TODO Auto-generated method stub
+		return evaluate(node.left) - evaluate(node.right);
+	}
+
+	@Override
+	Double evaluate(MultiplicationNode node) {
+		// TODO Auto-generated method stub
+		return evaluate(node.left) * evaluate(node.right);
+	}
+
+	@Override
+	Double evaluate(DivisionNode node) {
+		// TODO Auto-generated method stub
+		return evaluate(node.left) / evaluate(node.right);
+	}
+
+	@Override
+	Double evaluate(FunctionNode node) {
+		// TODO Auto-generated method stub
+		return 0.0;
+	}
+
+	@Override
+	Double evaluate(NegateNode node) {
+		// TODO Auto-generated method stub
+		return -evaluate(node.InnerNode);
+	}
+
+	@Override
+	Double evaluate(NumberNode node) {
+		// TODO Auto-generated method stub
 		return node.value;
 	}
 
 	@Override
-	public Double Visit(DeclarationNode node) {
-		return 0.00;
-	}
-
-	@Override
-	public Double Visit(VariableNode node) {
-		return 0.00;
-	}
-
-	@Override
-	public Double Visit(NegateNode node) {
-		return -Visit(node.InnerNode);
-	}
-
-	@Override
-	public Double Visit(FunctionNode node) {
+	Double evaluate(DeclarationNode node) {
 		// TODO Auto-generated method stub
-		return 0.00; //need to delete
+		return 0.0;
 	}
 
-    
+	@Override
+	Double evaluate(VariableNode node) {
+		// TODO Auto-generated method stub
+		return 0.0;
+	}
+
 }

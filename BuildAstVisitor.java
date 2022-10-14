@@ -1,5 +1,8 @@
 import java.util.HashMap;
 import java.util.Map;
+
+import org.antlr.v4.runtime.tree.ParseTree;
+
 import java.util.List;
 
 /*
@@ -16,7 +19,6 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 	
 	Map<String, Double> map = new HashMap<String, Double>();
 	private List<String> semanticErrors;
-
 
 	@Override
 	public AstNodes visitDecl(ExprParser.DeclContext ctx) {
@@ -41,7 +43,7 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 
 	@Override
 	public AstNodes visitInfixExpr(ExprParser.InfixExprContext ctx) {
-		System.out.println("visitInfixExpr calling\n");
+//		System.out.println("visitInfixExpr calling\n");
 		InfixExprNode node = null;
 		
 		if (ctx.op.getType() == ExprParser.ADD) {
@@ -63,7 +65,7 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 
 	@Override
 	public AstNodes visitNum(ExprParser.NumContext ctx) {
-		System.out.println("visitNUM calling\n");
+//		System.out.println("visitNUM calling\n");
 		String numText = ctx.getChild(0).getText();
 		double num = Double.parseDouble(numText);
 		return new NumberNode(num);
@@ -71,7 +73,7 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 
 	@Override
 	public AstNodes visitNumberExpr(ExprParser.NumberExprContext ctx) {
-		System.out.println("visitNumberExpr calling\n");
+//		System.out.println("visitNumberExpr calling\n");
 		String numText = ctx.getChild(0).getText();
 		double num = Double.parseDouble(numText);
 		return new NumberNode(num);
@@ -112,49 +114,5 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 	}
 }
 
-abstract class AstVisitor<T>
-{
-	public abstract T Visit(AdditionNode node);
-	public abstract T Visit(SubtractionNode node);
-	public abstract T Visit(MultiplicationNode node);
-	public abstract T Visit(DivisionNode node);
-	public abstract T Visit(FunctionNode node);
-	public abstract T Visit(NegateNode node);
-	public abstract T Visit(NumberNode node);
-	public abstract T Visit(DeclarationNode node);
-	public abstract T Visit(VariableNode node);
-	
-	public T Visit(AstNodes node) {
-		if (node instanceof AdditionNode) {
-			return Visit((AdditionNode)node);
-		}
-		else if (node instanceof SubtractionNode) {
-			return Visit((SubtractionNode)node);
-		}
-		else if (node instanceof MultiplicationNode) {
-			return Visit((MultiplicationNode)node);
-		}
-		else if (node instanceof DivisionNode) {
-			return Visit((DivisionNode)node);
-		}
-		else if (node instanceof FunctionNode) {
-			return Visit((FunctionNode)node);
-		}
-		else if (node instanceof NegateNode) {
-			return Visit((NegateNode)node);
-		}
-		else if (node instanceof NumberNode) {
-			return Visit((NumberNode)node);
-		}
-		else if (node instanceof DeclarationNode) {
-			return Visit((DeclarationNode)node);
-		}
-		else if (node instanceof VariableNode) {
-			return Visit((VariableNode)node);
-		}
-		
-		System.out.println("Visit calling\n");
-		return Visit(node);
-	}
-}
+
 
