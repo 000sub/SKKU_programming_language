@@ -17,8 +17,7 @@ you should override the methods.
 
 public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 	
-	Map<String, Double> map = new HashMap<String, Double>();
-	private List<String> semanticErrors;
+	static Map<String, Double> map = new HashMap<String, Double>();
 
 	@Override
 	public AstNodes visitDecl(ExprParser.DeclContext ctx) {
@@ -29,16 +28,20 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 		return new DeclarationNode(id, value);
 	}
 
-	@Override
-	public AstNodes visitFunc(ExprParser.FuncContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitFunc(ctx);
-	}
 
 	@Override
 	public AstNodes visitFuncExpr(ExprParser.FuncExprContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitFuncExpr(ctx);
+		//FunctionNode functionNode = new FunctionNode();
+		String fid = ctx.getChild(0).getChild(0).getText();
+		FunctionNode functionNode = new FunctionNode(fid);
+		int idx = 0;
+		int argnum = ctx.getChild(0).getChild(2).getChildCount();
+		while (idx<=argnum) {
+			String temp = ctx.getChild(0).getChild(2).getChild(idx).getText();
+			functionNode.args.add(Double.parseDouble(temp));
+			idx+=2;
+		}
+		return functionNode;
 	}
 
 	@Override
@@ -64,14 +67,6 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 	}
 
 	@Override
-	public AstNodes visitNum(ExprParser.NumContext ctx) {
-//		System.out.println("visitNUM calling\n");
-		String numText = ctx.getChild(0).getText();
-		double num = Double.parseDouble(numText);
-		return new NumberNode(num);
-	}
-
-	@Override
 	public AstNodes visitNumberExpr(ExprParser.NumberExprContext ctx) {
 //		System.out.println("visitNumberExpr calling\n");
 		String numText = ctx.getChild(0).getText();
@@ -79,11 +74,6 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 		return new NumberNode(num);
 	}
 
-	@Override
-	public AstNodes visitParam(ExprParser.ParamContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitParam(ctx);
-	}
 
 	@Override
 	public AstNodes visitParensExpr(ExprParser.ParensExprContext ctx) {
@@ -108,7 +98,7 @@ public class BuildAstVisitor extends ExprBaseVisitor<AstNodes> {
 		String id = ctx.getChild(0).getText();
 
 		if (map.get(id) == null) {
-			semanticErrors.add("Error: variable doesn't exist");
+			throw new IllegalStateException("Variable Access Failed:"+id);
 		}
 		return new VariableNode(id);
 	}

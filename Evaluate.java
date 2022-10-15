@@ -1,3 +1,9 @@
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /*
 
 Calculate The Input String
@@ -87,8 +93,35 @@ public class Evaluate extends AstWalker<Double>{
 
 	@Override
 	Double evaluate(FunctionNode node) {
-		// TODO Auto-generated method stub
-		return 0.0;
+		
+		try {
+			Class<?>[] argType = new Class[node.args.size()];
+			Arrays.fill(argType, double.class);
+			Method method = Math.class.getMethod(node.funcname, argType);
+			try {
+				Double val = (Double) method.invoke(method.getClass(), node.args.toArray());
+				return val;
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+		
 	}
 
 	@Override
@@ -112,7 +145,7 @@ public class Evaluate extends AstWalker<Double>{
 	@Override
 	Double evaluate(VariableNode node) {
 		// TODO Auto-generated method stub
-		return 0.0;
+		return BuildAstVisitor.map.get(node.id);
 	}
 
 }

@@ -10,10 +10,6 @@ public class AstCall extends AstWalker<Void> {
 	
 	private int depth = 0;
 	
-	private void increaseDepth() {
-		depth++;
-	}
-	
 	private void printTab(int cnt) {
 		for (int i=0;i<cnt;i++) {
 			System.out.print("\t");
@@ -24,9 +20,10 @@ public class AstCall extends AstWalker<Void> {
 	Void Call(AdditionNode node) {
 		printTab(depth);
 		System.out.println("ADD");
-		increaseDepth();
+		depth++;
 		Call(node.left);
 		Call(node.right);
+		depth--;
 		return null;
 	}
 
@@ -34,9 +31,10 @@ public class AstCall extends AstWalker<Void> {
 	Void Call(SubtractionNode node) {
 		printTab(depth);
 		System.out.println("SUB");
-		increaseDepth();
+		depth++;
 		Call(node.left);
 		Call(node.right);
+		depth--;
 		return null;
 	}
 
@@ -44,9 +42,10 @@ public class AstCall extends AstWalker<Void> {
 	Void Call(MultiplicationNode node) {
 		printTab(depth);
 		System.out.println("MUL");
-		increaseDepth();
+		depth++;
 		Call(node.left);
 		Call(node.right);
+		depth--;
 		return null;
 	}
 
@@ -54,15 +53,23 @@ public class AstCall extends AstWalker<Void> {
 	Void Call(DivisionNode node) {
 		printTab(depth);
 		System.out.println("DIV");
-		increaseDepth();
+		depth++;
 		Call(node.left);
 		Call(node.right);
+		depth--;
 		return null;
 	}
 
 	@Override
 	Void Call(FunctionNode node) {
-		// TODO Auto-generated method stub
+		printTab(depth);
+		System.out.println(node.funcname);
+		depth++;
+		for (Double val: node.args) {
+			printTab(depth);
+			System.out.println(String.format("%.1f", val));
+		}
+		depth--;
 		return null;
 	}
 
@@ -83,17 +90,19 @@ public class AstCall extends AstWalker<Void> {
 	Void Call(DeclarationNode node) {
 		printTab(depth);
 		System.out.println("ASSIGN");
-		increaseDepth();
+		depth++;
 		printTab(depth);
 		System.out.println(node.id);
 		printTab(depth);
 		System.out.println(node.value);
+		depth--;
 		return null;
 	}
 
 	@Override
 	Void Call(VariableNode node) {
-		// TODO Auto-generated method stub
+		printTab(depth);
+		System.out.println(node.id);
 		return null;
 	}
 

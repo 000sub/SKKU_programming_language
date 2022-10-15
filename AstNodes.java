@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /*
 
 define Ast Nodes
@@ -22,11 +25,6 @@ class AdditionNode extends InfixExprNode{
 		this.left = left;
 		this.right = right;
 	}
-
-	@Override
-	public String toString() {
-		return left.toString() + " + " + right.toString();
-	}
 }
 
 class SubtractionNode extends InfixExprNode{
@@ -36,11 +34,6 @@ class SubtractionNode extends InfixExprNode{
 	public SubtractionNode(AstNodes left, AstNodes right) {
 		this.left = left;
 		this.right = right;
-	}
-
-	@Override
-	public String toString() {
-		return left.toString() + " - " + right.toString();
 	}
 }
 
@@ -52,15 +45,6 @@ class MultiplicationNode extends InfixExprNode{
 		this.left = left;
 		this.right = right;
 	}
-
-	@Override
-	public String toString() {
-		return left.toString() + " * " + right.toString();
-	}
-	
-	
-	
-	
 }
 
 class DivisionNode extends InfixExprNode{
@@ -70,11 +54,6 @@ class DivisionNode extends InfixExprNode{
 	public DivisionNode(AstNodes left, AstNodes right) {
 		this.left = left;
 		this.right = right;
-	}
-
-	@Override
-	public String toString() {
-		return left.toString() + " / " + right.toString();
 	}
 }
 
@@ -89,6 +68,14 @@ class NegateNode extends AstNodes{
 }
 
 class FunctionNode extends AstNodes{
+	public String funcname;
+	public List<Double> args;
+
+	public FunctionNode(String funcname) {
+		this.funcname = funcname;
+		this.args = new ArrayList<>();
+	}
+	
 	
 }
 
@@ -98,13 +85,6 @@ class NumberNode extends AstNodes{
     public NumberNode(double value) {
         this.value = value;
     }
-
-	@Override
-	public String toString() {
-		String val = String.format("%.2f", value);
-		return val;
-	}
-    
     
 }
 

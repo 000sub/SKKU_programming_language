@@ -27,13 +27,19 @@ public class program {
 
         while (true) {
         	try {
-                AstNodes ast = new BuildAstVisitor().visit(tree.children.get(idx));
+                BuildAstVisitor visitor = new BuildAstVisitor();
+                AstNodes ast = visitor.visit(tree.children.get(idx));
                 AstCall astPrinter = new AstCall();
                 astPrinter.Call(ast);
                 Double rst = new Evaluate().evaluate(ast);
                 evalList.add(rst);
-                idx+=3;
+                idx++;
             }
+        	catch (NullPointerException E) {
+        		idx++;
+        		continue;
+        	}
+ 
         	catch (IndexOutOfBoundsException E){
         		break;
         	}
