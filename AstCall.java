@@ -9,12 +9,14 @@ print the Ast that we build in BuildAstVisitor.java
 public class AstCall extends AstWalker<Void> {
 	
 	private int depth = 0;
+	private boolean fromNegate = false;
 	
 	private void printTab(int cnt) {
 		for (int i=0;i<cnt;i++) {
 			System.out.print("\t");
 		}
 	}
+
 	
 	@Override
 	Void Call(AdditionNode node) {
@@ -67,7 +69,7 @@ public class AstCall extends AstWalker<Void> {
 		depth++;
 		for (Double val: node.args) {
 			printTab(depth);
-			System.out.println(String.format("%.1f", val));
+			System.out.println(String.format("%s", val));
 		}
 		depth--;
 		return null;
@@ -75,6 +77,7 @@ public class AstCall extends AstWalker<Void> {
 
 	@Override
 	Void Call(NegateNode node) {
+		fromNegate = true;
 		Call(node.InnerNode);
 		return null;
 	}
@@ -82,7 +85,14 @@ public class AstCall extends AstWalker<Void> {
 	@Override
 	Void Call(NumberNode node) {
 		printTab(depth);
-		System.out.println(String.format("%.1f", node.value));
+		if (fromNegate) {
+			System.out.println(String.format("%s", -node.value));
+			fromNegate = false;
+		}
+		else {
+			System.out.println(String.format("%s", node.value));
+		}
+		
 		return null;
 	}
 

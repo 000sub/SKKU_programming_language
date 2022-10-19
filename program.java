@@ -46,7 +46,7 @@ public class program {
         }
         
         for (Double eval : evalList) {
-        	System.out.println(String.format("%f", eval));
+        	System.out.println(String.format("%s", eval));
         }
         
         
