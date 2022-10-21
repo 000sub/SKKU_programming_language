@@ -23,7 +23,7 @@ num  : INT
      ;
 
 func : ID '(' param ')';
-param : (num COMMA)* num;
+param : (expr COMMA)* expr;
 // lexer rules                    
 NEWLINE: [\r\n]+ ;
 INT: [0-9]+ ;          // should handle negatives
